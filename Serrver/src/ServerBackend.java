@@ -29,7 +29,8 @@ public class ServerBackend {
             socket_public  = new ServerSocket(4334);
         }
         catch (Exception e){
-
+            System.out.println("loi serversocket o Server");
+            e.printStackTrace();
         }
 
     }

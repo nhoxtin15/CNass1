@@ -3,6 +3,7 @@ import javax.xml.catalog.Catalog;
 import javax.xml.crypto.Data;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ServerProcessor implements Runnable {
 
             try {
                 synchronized (ServerBackend.Socket_lock) {
-                    System.out.println("Start listening");
+                    System.out.println("Start listening at thread "+this.ID);
                     ServerSocket socket1 = ServerBackend.socket_private;
                     ServerSocket socket2 = ServerBackend.socket_public;
                     this.socket_private = socket1.accept();
@@ -59,12 +60,16 @@ public class ServerProcessor implements Runnable {
 
 
                     //extract the IP
-                    ServerBackend.List_of_IP.add(socket_private.getInetAddress().getHostAddress());
+                    String ip=(((InetSocketAddress) socket_private.getRemoteSocketAddress()).getAddress()).toString().replace("/","");
+                    ServerBackend.List_of_IP.add(ip);
                     //add a new list
                     //ServerBackend.List_of_file.add(new Vector<>());
 
                     this.ID = ServerBackend.size;
+                    System.out.println("Connection sucessfully, the new ID is: "+this.ID);
+                    ServerBackend.List_of_processor.add(this);
                     ServerBackend.size++;
+
 
 
 
@@ -129,10 +134,10 @@ public class ServerProcessor implements Runnable {
                         ServerBackend.List_of_file.add(List_of_file_temp);
                     }
                     else if(message.equals("send")){
-
-
                         //read file name
                         String fileName = this.private_input.readUTF();
+
+                        System.out.println("The client "+ServerBackend.List_of_IP.elementAt(this.ID)+"want the file: "+ fileName);
 
 
 
@@ -150,11 +155,14 @@ public class ServerProcessor implements Runnable {
                             }
                         }
 
+                        System.out.println("the file is found at Client: " + ServerBackend.List_of_IP.elementAt(Socket_iter));
+
 
                         //Socket iter is the file
                         if(found){
                             try{
-                                ServerBackend.List_of_processor.elementAt(Socket_iter).fetch(fileName,ServerBackend.List_of_IP.elementAt(Socket_iter));
+                                System.out.println(ServerBackend.List_of_processor.elementAt(Socket_iter).ID);
+                                ServerBackend.List_of_processor.elementAt(Socket_iter).fetch(fileName,ServerBackend.List_of_IP.elementAt(this.ID));
                             }
                             catch (Exception loikhifetch){
                                 try{
@@ -182,9 +190,9 @@ public class ServerProcessor implements Runnable {
 
     }
 
-
     public synchronized void fetch(String filename,String receiver) throws Exception{
         try{
+
             DataOutputStream sender = public_output;
             //send the
             public_output.writeUTF("send");

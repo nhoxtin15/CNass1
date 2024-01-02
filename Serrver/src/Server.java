@@ -22,8 +22,9 @@ public class Server {
         Vector <Thread> threads = new Vector<>();
 
         for(int i=0;i<client_num;i++){
-            ServerBackend.List_of_processor.add(new ServerProcessor(i));
-            threads.add(new Thread (ServerBackend.List_of_processor.elementAt(i))) ;
+            //ServerBackend.List_of_processor.add(new ServerProcessor(i));
+            ServerProcessor newProcessor = new ServerProcessor(i);
+            threads.add(new Thread (newProcessor)) ;
             threads.elementAt(i).start();
         }
 
