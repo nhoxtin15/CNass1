@@ -1,7 +1,7 @@
 # P2P File Transfer like Torrent
 ## 1. Introduction
 This project is a simple implementation of a P2P file transfer system like torrent. The implementation is by Java and JavaFx. You can see the system design here:
-![System Design](https://github.com/nhoxtin15/CNass1/blob/main/Image.png)
+![System Design]((https://github.com/nhoxtin15/CNass1/blob/main/Image/P2PAssignment.png))
 ### 1.1  Server side:
 #### 1.1.1. Requirement:
 - The server is responsible for storing the list of files that are available for sharing and from which client that file is available. (Note that the server doesn't really store the files)
