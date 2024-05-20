@@ -4,11 +4,30 @@ package Server;
 import java.net.*;
 import java.util.Scanner;
 import java.util.Vector;
-
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 public class Server {
-    public static void main(String[] args) throws Exception{
-        System.out.println(InetAddress.getLocalHost().getHostAddress());
 
+
+    public static  String getLocalIpAddress() throws SocketException {
+        Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+        while (networkInterfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = networkInterfaces.nextElement();
+            Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+            while (inetAddresses.hasMoreElements()) {
+                InetAddress inetAddress = inetAddresses.nextElement();
+                if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                    return inetAddress.getHostAddress();
+                }
+            }
+        }
+        return null;
+    }
+    public static void main(String[] args) throws Exception{
+
+        System.out.println(getLocalIpAddress());
 
         //promt and input number of client allow
 
