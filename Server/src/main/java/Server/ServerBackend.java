@@ -1,3 +1,4 @@
+package  Server;
 import java.net.ServerSocket;
 import java.util.Vector;
 
@@ -29,7 +30,7 @@ public class ServerBackend {
             socket_public  = new ServerSocket(4334);
         }
         catch (Exception e){
-            System.out.println("loi serversocket o Server");
+            System.out.println("loi serversocket o Server.Server");
             e.printStackTrace();
         }
 

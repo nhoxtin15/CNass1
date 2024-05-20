@@ -1,8 +1,7 @@
+package Server;
 
 
-import java.io.DataInputStream;
 import java.net.*;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -31,12 +30,6 @@ public class Server {
         for(int i=0;i<client_num;i++){
             threads.elementAt(i).join();
         }
-
-
-
-
-
-
 
     }
 }
